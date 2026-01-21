@@ -1,0 +1,24 @@
+body {
+  background-color: white;
+  color: black;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.cambio-Color {
+  background-color: black;
+  color: white;
+}
+
+.tarjeta{ 
+     display: flex;
+     flex-direction: column;
+    align-content: space-around;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 20px;
+    background: rgba(0,0,0,0.25);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+
+}
