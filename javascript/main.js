@@ -68,7 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnEliminarUltimo = document.getElementById("Eliminar-Ultimo");
   const btnAgregarSeparador = document.getElementById("Separador");
   const btnOrdenarxNombre = document.getElementById("Ordenar-Alumnos");
-
+  const btnInclude = document.getElementById("Include");
+  const btnIndexOf = document.getElementById("Index-Of");
 
   if (btnIniciar) btnIniciar.addEventListener("click", iniciarInscripcion);
   if (btnMostrarAlumnos) btnMostrarAlumnos.addEventListener ("click" , MostrarAlumnos );
@@ -80,6 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnEliminarUltimo) btnEliminarUltimo.addEventListener("click",EliminarUltimo);
   if (btnAgregarSeparador) btnAgregarSeparador.addEventListener("click",AgregarconJoin);
   if (btnOrdenarxNombre) btnOrdenarxNombre.addEventListener("click", OrdenarAlfabeticamente);
+  if (btnInclude) btnInclude.addEventListener("click" ,Inclusion);
+  if (btnIndexOf) btnIndexOf.addEventListener("click",BuscarConIndexOf);
 });
 
 function cambiarColor() {
@@ -226,4 +229,60 @@ function OrdenarAlfabeticamente() {
     "\nTurno Tarde (A-Z): " + (turnos.tarde.length ? turnos.tarde.join(" , ") : "Nadie") +
     "\nTurno Noche (A-Z): " + (turnos.noche.length ? turnos.noche.join(", ") : "Nadie")
   );
+}
+
+
+function Inclusion() {
+ let  nombre = prompt("Ingrese el nombre a buscar:");
+
+  nombre = nombre.trim().toLowerCase();
+
+  let contenido =false;
+
+  for(let i =0 ; i< alumnos.length;i++) {
+     if(alumnos[i].toLocaleLowerCase()===nombre){
+      contenido = true ;
+      break
+     }
+
+  }
+  
+    if (nombre === null) {
+    alert("Cancelaste la búsqueda.");
+    return;
+  }
+
+  if (contenido){
+    alert("✅ El alumno está en el registro de alumnos.");
+
+  } else {   
+    alert("❌ El alumno NO está en el registro de alumnos");
+
+  } 
+}
+
+function BuscarConIndexOf() {
+  let nombre = prompt("Ingrese el nombre a buscar:");
+
+  if (nombre === null) {
+    alert("Cancelaste la búsqueda.");
+    return;
+  }
+
+  nombre = nombre.trim().toLowerCase();
+
+  let indice = -1;
+
+  for (let i = 0; i < alumnos.length; i++) {
+    if (alumnos[i].toLowerCase() === nombre) {
+      indice = i;
+      break;
+    }
+  }
+
+  if (indice !== -1) {
+    alert("✅ Encontrado: " + alumnos[indice] + "\nPosición: " + indice);
+  } else {
+    alert("❌ No está en el array.");
+  }
 }
