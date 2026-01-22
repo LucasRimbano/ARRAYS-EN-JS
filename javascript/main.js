@@ -61,12 +61,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnColor   = document.getElementById("cambio-Color");
   const btnEliminarPRimero = document.getElementById("Eliminar-Primero");
   const btnAgregarPrimero  =  document.getElementById("Agregar-Primero");
+  const btnAgregarUltimo = document.getElementById("Agregar-Ultimo");
+  const btnEliminarUltimo = document.getElementById("Eliminar-Ultimo");
+
 
   if (btnIniciar) btnIniciar.addEventListener("click", iniciarInscripcion);
   if (btnMostrar) btnMostrar.addEventListener("click", mostrarTurnos);
   if (btnColor)   btnColor.addEventListener("click" , cambiarColor)
   if (btnEliminarPRimero) btnEliminarPRimero.addEventListener("click",eliminarPrimero);
   if (btnAgregarPrimero) btnAgregarPrimero.addEventListener("click",agregarPrimero);
+  if(btnAgregarUltimo) btnAgregarUltimo.addEventListener("click",AgregarUltimo);
+  if (btnEliminarUltimo) btnEliminarUltimo.addEventListener("click",EliminarUltimo);
 });
 
 function cambiarColor() {
@@ -130,5 +135,50 @@ function agregarPrimero(){
         console.log("LO SIENTO INVALIDO AGREGA SOLO LAS OPCIONES CORRECTAS");
         alert("LO SIENTO AGREGA ALGO CORRECTO...");
      }
+
+      alert("Se agrego: " + eliminarPrimerAlumnno);
+    alert("Alumnos ahora:" + alumnos.join(","));
      
+}
+
+function AgregarUltimo() {
+
+  let nombre = prompt("Ingrese el nombre del alumno a agregar:");
+
+  alumnos.push(nombre);
+
+
+  let turno = prompt("Por favor" + nombre + "Ingrese el turno a donde se quiera anotar (mañana,tarde,noche)");
+  turno = turno.trim().toLowerCase();
+
+  if (turno === "mañana") {
+    turnos.mañana.push(nombre);
+  } else if (turno === "tarde") {
+    turnos.tarde.push(nombre);
+  } else if (turno === "noche") {
+    turnos.noche.push(nombre);
+  }  else {
+        console.log("LO SIENTO INVALIDO AGREGA SOLO LAS OPCIONES CORRECTAS");
+        alert("LO SIENTO AGREGA ALGO CORRECTO...");
+     }
+
+  alert("Se agregó: " + nombre);
+  alert("Alumnos ahora: " + alumnos.join(", "));
+}
+
+function EliminarUltimo() {
+  if (alumnos.length === 0) {
+    console.log("Lo siento no hay mas alumnos para eliminar...");
+    return;
+  }
+
+  const nombre = alumnos.pop();
+
+ 
+  turnos.mañana = turnos.mañana.filter(a => a !== nombre);
+  turnos.tarde  = turnos.tarde.filter(a => a !== nombre);
+  turnos.noche  = turnos.noche.filter(a => a !== nombre);
+
+  alert("Se eliminó: " + nombre);
+  alert("Alumnos ahora: " + alumnos.join(","));
 }
