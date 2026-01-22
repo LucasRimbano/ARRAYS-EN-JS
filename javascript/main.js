@@ -42,6 +42,8 @@ function iniciarInscripcion() {
   alert("Inscripción terminada ✅");
 }
 
+
+
 function mostrarTurnos() {
   console.log("📌 Turnos finales:");
   console.log("Mañana:", turnos.mañana);
@@ -57,21 +59,27 @@ function mostrarTurnos() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const btnIniciar = document.getElementById("Iniciar-Inscripcion");
+  const btnMostrarAlumnos = document.getElementById("Mostrar-Alumnos");
   const btnMostrar = document.getElementById("Mostrar-Turnos");
   const btnColor   = document.getElementById("cambio-Color");
   const btnEliminarPRimero = document.getElementById("Eliminar-Primero");
   const btnAgregarPrimero  =  document.getElementById("Agregar-Primero");
   const btnAgregarUltimo = document.getElementById("Agregar-Ultimo");
   const btnEliminarUltimo = document.getElementById("Eliminar-Ultimo");
+  const btnAgregarSeparador = document.getElementById("Separador");
+  const btnOrdenarxNombre = document.getElementById("Ordenar-Alumnos");
 
 
   if (btnIniciar) btnIniciar.addEventListener("click", iniciarInscripcion);
+  if (btnMostrarAlumnos) btnMostrarAlumnos.addEventListener ("click" , MostrarAlumnos );
   if (btnMostrar) btnMostrar.addEventListener("click", mostrarTurnos);
-  if (btnColor)   btnColor.addEventListener("click" , cambiarColor)
+  if (btnColor)   btnColor.addEventListener("click" , cambiarColor);
   if (btnEliminarPRimero) btnEliminarPRimero.addEventListener("click",eliminarPrimero);
   if (btnAgregarPrimero) btnAgregarPrimero.addEventListener("click",agregarPrimero);
   if(btnAgregarUltimo) btnAgregarUltimo.addEventListener("click",AgregarUltimo);
   if (btnEliminarUltimo) btnEliminarUltimo.addEventListener("click",EliminarUltimo);
+  if (btnAgregarSeparador) btnAgregarSeparador.addEventListener("click",AgregarconJoin);
+  if (btnOrdenarxNombre) btnOrdenarxNombre.addEventListener("click", OrdenarAlfabeticamente);
 });
 
 function cambiarColor() {
@@ -84,6 +92,14 @@ function cambiarColor() {
         btnColor.textContent = "Modo Oscuro";
     }
 }
+
+function MostrarAlumnos (){
+
+  alert("Los alumnos por el momento que estan por inscibirse son: " +alumnos);
+
+  
+}
+
 
 function eliminarPrimero(){
 
@@ -181,4 +197,33 @@ function EliminarUltimo() {
 
   alert("Se eliminó: " + nombre);
   alert("Alumnos ahora: " + alumnos.join(","));
+}
+
+function AgregarconJoin() {
+
+  let textoIntermedio = alumnos.join(" // ");
+
+  alert(
+    "Array normal: " + alumnos + 
+    "\nCon separador: " + textoIntermedio +
+    "\n\nTurno Mañana: " + (turnos.mañana.length ? turnos.mañana.join(" // ") : "Nadie") +
+    "\nTurno Tarde: " + (turnos.tarde.length ? turnos.tarde.join(" // ") : "Nadie") +
+    "\nTurno Noche: " + (turnos.noche.length ? turnos.noche.join(" // ") : "Nadie")
+  );
+
+}
+
+function OrdenarAlfabeticamente() {
+
+  alumnos.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+  turnos.mañana.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+  turnos.tarde.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+  turnos.noche.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+  alert(
+    "ALUMNOS (A-Z): " + (alumnos.length ? alumnos.join(" , ") : "Nadie") +
+    "\n\nTurno Mañana (A-Z): " + (turnos.mañana.length ? turnos.mañana.join(" , ") : "Nadie") +
+    "\nTurno Tarde (A-Z): " + (turnos.tarde.length ? turnos.tarde.join(" , ") : "Nadie") +
+    "\nTurno Noche (A-Z): " + (turnos.noche.length ? turnos.noche.join(", ") : "Nadie")
+  );
 }
