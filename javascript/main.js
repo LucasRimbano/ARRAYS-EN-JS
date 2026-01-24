@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnOrdenarxNombre = document.getElementById("Ordenar-Alumnos");
   const btnInclude = document.getElementById("Include");
   const btnIndexOf = document.getElementById("Index-Of");
+  const btnSlice = document.getElementById("Slice-Turnos");
 
   if (btnIniciar) btnIniciar.addEventListener("click", iniciarInscripcion);
   if (btnMostrarAlumnos) btnMostrarAlumnos.addEventListener ("click" , MostrarAlumnos );
@@ -83,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnOrdenarxNombre) btnOrdenarxNombre.addEventListener("click", OrdenarAlfabeticamente);
   if (btnInclude) btnInclude.addEventListener("click" ,Inclusion);
   if (btnIndexOf) btnIndexOf.addEventListener("click",BuscarConIndexOf);
+  if (btnSlice) btnSlice.addEventListener("click" , MostrarTurnosConSlice);
 });
 
 function cambiarColor() {
@@ -233,24 +235,18 @@ function OrdenarAlfabeticamente() {
 
 
 function Inclusion() {
- let  nombre = prompt("Ingrese el nombre a buscar:");
+  let  nombre = prompt("Ingrese el nombre a buscar:");
 
   nombre = nombre.trim().toLowerCase();
 
-  let contenido =false;
 
-  for(let i =0 ; i< alumnos.length;i++) {
-     if(alumnos[i].toLocaleLowerCase()===nombre){
-      contenido = true ;
-      break
-     }
-
-  }
-  
+ 
     if (nombre === null) {
     alert("Cancelaste la búsqueda.");
     return;
   }
+
+  let contenido = alumnos.includes(nombre);
 
   if (contenido){
     alert("✅ El alumno está en el registro de alumnos.");
@@ -271,18 +267,40 @@ function BuscarConIndexOf() {
 
   nombre = nombre.trim().toLowerCase();
 
-  let indice = -1;
-
-  for (let i = 0; i < alumnos.length; i++) {
-    if (alumnos[i].toLowerCase() === nombre) {
-      indice = i;
-      break;
-    }
-  }
+ 
+  let indice = alumnos.indexOf(nombre);
 
   if (indice !== -1) {
     alert("✅ Encontrado: " + alumnos[indice] + "\nPosición: " + indice);
   } else {
     alert("❌ No está en el array.");
   }
+}
+
+function MostrarTurnosConSlice() {
+  let cantidad = prompt("¿Cuántos alumnos querés ver por cada turno? ");
+
+  if (cantidad === null) {
+    alert("Cancelaste.");
+    return;
+  }
+
+  cantidad = parseInt(cantidad);
+
+  if (Number.isNaN(cantidad) || cantidad <= 0) {
+    alert("Cantidad inválida. Ingresá un número mayor a 0.");
+    return;
+  }
+
+  //  slice NO modifica el array original
+  let vistaManiana = turnos.mañana.slice(0, cantidad);
+  let vistaTarde   = turnos.tarde.slice(0, cantidad);
+  let vistaNoche   = turnos.noche.slice(0, cantidad);
+
+  alert(
+    "📌 Vista previa con SLICE (" + cantidad + " por turno)\n\n" +
+    "Turno Mañana: " + (vistaManiana.length ? vistaManiana.join(", ") : "Nadie") + "\n" +
+    "Turno Tarde: "  + (vistaTarde.length ? vistaTarde.join(", ") : "Nadie") + "\n" +
+    "Turno Noche: "  + (vistaNoche.length ? vistaNoche.join(", ") : "Nadie")
+  );
 }
