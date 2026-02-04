@@ -11,6 +11,95 @@ let turnos = {
   noche: []
 };
 
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btnIniciar = document.getElementById("Iniciar-Inscripcion");
+  const btnMostrarAlumnos = document.getElementById("Mostrar-Alumnos");
+  const btnMostrar = document.getElementById("Mostrar-Turnos");
+  const btnColor   = document.getElementById("cambio-Color");
+  const btnEliminarPRimero = document.getElementById("Eliminar-Primero");
+  const btnAgregarPrimero  =  document.getElementById("Agregar-Primero");
+  const btnAgregarUltimo = document.getElementById("Agregar-Ultimo");
+  const btnEliminarUltimo = document.getElementById("Eliminar-Ultimo");
+  const btnAgregarSeparador = document.getElementById("Separador");
+  const btnOrdenarxNombre = document.getElementById("Ordenar-Alumnos");
+  const btnInclude = document.getElementById("Include");
+  const btnIndexOf = document.getElementById("Index-Of");
+  const btnSlice = document.getElementById("Slice-Turnos");
+  const btnNumerados = document.getElementById("Alumnos-Numerados");
+  const btnMayus     = document.getElementById("Alumnos-Mayus");
+  const btnLargos    = document.getElementById("Nombres-Largos");
+  const btnStats     = document.getElementById("Stats-Turnos");
+  const btnVerificar = document.getElementById("btnVerificar");
+  const btnResumen = document.getElementById("btnResumen");
+  const resultado = document.getElementById("resultado");
+
+
+
+  if (btnIniciar) btnIniciar.addEventListener("click", iniciarInscripcion);
+  if (btnMostrarAlumnos) btnMostrarAlumnos.addEventListener ("click" , MostrarAlumnos );
+  if (btnMostrar) btnMostrar.addEventListener("click", mostrarTurnos);
+  if (btnColor)   btnColor.addEventListener("click" , cambiarColor);
+  if (btnEliminarPRimero) btnEliminarPRimero.addEventListener("click",eliminarPrimero);
+  if (btnAgregarPrimero) btnAgregarPrimero.addEventListener("click",agregarPrimero);
+  if(btnAgregarUltimo) btnAgregarUltimo.addEventListener("click",AgregarUltimo);
+  if (btnEliminarUltimo) btnEliminarUltimo.addEventListener("click",EliminarUltimo);
+  if (btnAgregarSeparador) btnAgregarSeparador.addEventListener("click",AgregarconJoin);
+  if (btnOrdenarxNombre) btnOrdenarxNombre.addEventListener("click", OrdenarAlfabeticamente);
+  if (btnInclude) btnInclude.addEventListener("click" ,Inclusion);
+  if (btnIndexOf) btnIndexOf.addEventListener("click",BuscarConIndexOf);
+  if (btnSlice) btnSlice.addEventListener("click" , MostrarTurnosConSlice);
+  if (btnNumerados) btnNumerados.addEventListener("click", MostrarAlumnosNumerados);
+  if (btnMayus)     btnMayus.addEventListener("click", MostrarAlumnosMayusculas);
+  if (btnLargos)    btnLargos.addEventListener("click", FiltrarNombresLargos);
+  if (btnStats)     btnStats.addEventListener("click", EstadisticasTurnos);
+
+   // ===== some: verificar inscripción con PROMPT =====
+  if (btnVerificar && resultado) {
+    btnVerificar.addEventListener("click", () => {
+
+      let nombre = prompt("Ingrese el nombre a verificar:");
+
+      if (nombre === null) {
+        resultado.textContent = "❌ Búsqueda cancelada";
+        return;
+      }
+
+      nombre = nombre.trim().toLowerCase();
+
+      if (nombre === "") {
+        resultado.textContent = "⚠️ No ingresaste ningún nombre";
+        return;
+      }
+
+      resultado.textContent = alumnoYaInscripto(nombre)
+        ? "✅ Ya está inscripto en algún turno"
+        : "❌ No está inscripto en ningún turno";
+
+    });
+  }
+
+    if (btnResumen && resultado) {
+    btnResumen.addEventListener("click", () => {
+      const r = resumenTurnos();
+
+      resultado.innerHTML = `
+        🌅 Mañana: ${r.mañana} <br>
+        🌇 Tarde: ${r.tarde} <br>
+        🌙 Noche: ${r.noche} <br>
+        📊 Total: ${r.total}
+      `;
+    });
+  }
+
+
+});
+
+
+
+
+
+
 function iniciarInscripcion() {
   // ✅ Reiniciar turnos para que no se acumulen si clickeás otra vez
   turnos.mañana = [];
@@ -57,35 +146,8 @@ function mostrarTurnos() {
   );
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const btnIniciar = document.getElementById("Iniciar-Inscripcion");
-  const btnMostrarAlumnos = document.getElementById("Mostrar-Alumnos");
-  const btnMostrar = document.getElementById("Mostrar-Turnos");
-  const btnColor   = document.getElementById("cambio-Color");
-  const btnEliminarPRimero = document.getElementById("Eliminar-Primero");
-  const btnAgregarPrimero  =  document.getElementById("Agregar-Primero");
-  const btnAgregarUltimo = document.getElementById("Agregar-Ultimo");
-  const btnEliminarUltimo = document.getElementById("Eliminar-Ultimo");
-  const btnAgregarSeparador = document.getElementById("Separador");
-  const btnOrdenarxNombre = document.getElementById("Ordenar-Alumnos");
-  const btnInclude = document.getElementById("Include");
-  const btnIndexOf = document.getElementById("Index-Of");
-  const btnSlice = document.getElementById("Slice-Turnos");
 
-  if (btnIniciar) btnIniciar.addEventListener("click", iniciarInscripcion);
-  if (btnMostrarAlumnos) btnMostrarAlumnos.addEventListener ("click" , MostrarAlumnos );
-  if (btnMostrar) btnMostrar.addEventListener("click", mostrarTurnos);
-  if (btnColor)   btnColor.addEventListener("click" , cambiarColor);
-  if (btnEliminarPRimero) btnEliminarPRimero.addEventListener("click",eliminarPrimero);
-  if (btnAgregarPrimero) btnAgregarPrimero.addEventListener("click",agregarPrimero);
-  if(btnAgregarUltimo) btnAgregarUltimo.addEventListener("click",AgregarUltimo);
-  if (btnEliminarUltimo) btnEliminarUltimo.addEventListener("click",EliminarUltimo);
-  if (btnAgregarSeparador) btnAgregarSeparador.addEventListener("click",AgregarconJoin);
-  if (btnOrdenarxNombre) btnOrdenarxNombre.addEventListener("click", OrdenarAlfabeticamente);
-  if (btnInclude) btnInclude.addEventListener("click" ,Inclusion);
-  if (btnIndexOf) btnIndexOf.addEventListener("click",BuscarConIndexOf);
-  if (btnSlice) btnSlice.addEventListener("click" , MostrarTurnosConSlice);
-});
+
 
 function cambiarColor() {
     document.body.classList.toggle("cambio-Color")
@@ -157,7 +219,7 @@ function agregarPrimero(){
         alert("LO SIENTO AGREGA ALGO CORRECTO...");
      }
 
-      alert("Se agrego: " + eliminarPrimerAlumnno);
+      alert("Se agrego: " + nombre);
     alert("Alumnos ahora:" + alumnos.join(","));
      
 }
@@ -235,27 +297,20 @@ function OrdenarAlfabeticamente() {
 
 
 function Inclusion() {
-  let  nombre = prompt("Ingrese el nombre a buscar:");
+  let nombre = prompt("Ingrese el nombre a buscar:");
 
-  nombre = nombre.trim().toLowerCase();
-
-
- 
-    if (nombre === null) {
+  if (nombre === null) {
     alert("Cancelaste la búsqueda.");
     return;
   }
 
+  nombre = nombre.trim().toLowerCase();
+
   let contenido = alumnos.includes(nombre);
 
-  if (contenido){
-    alert("✅ El alumno está en el registro de alumnos.");
-
-  } else {   
-    alert("❌ El alumno NO está en el registro de alumnos");
-
-  } 
+  alert(contenido ? "✅ El alumno está en el registro." : "❌ El alumno NO está.");
 }
+
 
 function BuscarConIndexOf() {
   let nombre = prompt("Ingrese el nombre a buscar:");
@@ -304,3 +359,105 @@ function MostrarTurnosConSlice() {
     "Turno Noche: "  + (vistaNoche.length ? vistaNoche.join(", ") : "Nadie")
   );
 }
+
+//foreach recorre uno por el array
+function MostrarAlumnosNumerados() {
+
+  if (alumnos.length === 0) {
+    alert("No hay alumnos.");
+    return;
+  }
+
+  let texto = "📋 Lista numerada:\n\n";
+
+  alumnos.forEach(function(nombre, indice){
+    texto += (indice + 1) + ") " + nombre + "\n";
+  });
+
+  alert(texto);
+}
+
+
+ // map transforma datos crea un nuevo array pasa a mayuscula
+function MostrarAlumnosMayusculas() {
+
+  let mayus = alumnos.map(function(nombre){
+    return nombre.toUpperCase();
+  });
+
+  alert("🔠 En mayúsculas:\n" + mayus.join(", "));
+}
+
+
+//filter filtra devuelve elementros con una condicion
+function FiltrarNombresLargos() {
+
+  let largos = alumnos.filter(function(nombre){
+    return nombre.length > 5;
+  });
+
+  alert("📏 Nombres largos:\n" + (largos.length ? largos.join(", ") : "Ninguno"));
+}
+
+
+function EstadisticasTurnos() {
+
+  const datos = Object.entries(turnos);
+
+  let texto = "📊 Estadísticas:\n\n";
+
+  datos.forEach(function([turno, lista]){
+    texto += turno + ": " + lista.length + " alumnos\n";
+  });
+
+  alert(texto);
+}
+
+
+function alumnoYaInscripto(nombre){
+
+  return turnos.mañana.some(a => a === nombre) ||
+         turnos.tarde.some(a => a === nombre)  ||
+         turnos.noche.some(a => a === nombre);
+
+}
+
+
+function resumenTurnos(){
+
+  const arrays = [turnos.mañana, turnos.tarde, turnos.noche];
+  const nombres = ["mañana", "tarde", "noche"];
+
+  return arrays.reduce(function(acc, array, i){
+
+    acc[nombres[i]] = array.length;
+    acc.total += array.length;
+
+    return acc;
+
+  }, { total: 0 });
+
+}
+
+
+//| Método      | Cuándo usarlo                                |
+//| ----------- | -------------------------------------------- |
+//| `indexOf`   | strings o números simples                    |
+//| `some`      | solo saber SI existe  true o flaso           |
+//| `find`      | querés el elemento                           |
+//| `findIndex` | querés la posición (busca posicion)          |
+//| `reduce`    | todo 1resultado cuenta suna total estadistica|
+//| `map`       | converti /trasnforma                         |
+//| `some`      | hya alguno?                                  |
+
+
+
+//| Método    | Devuelve    | Uso típico      |
+//| --------- | ----------- | --------------- |
+//| some      | boolean     | existe          |
+//| find      | elemento    | buscar          |
+//| findIndex | número      | posición        |
+//| filter    | array nuevo | filtrar         |
+//| map       | array nuevo | transformar     |
+//| reduce    | 1 valor     | acumular        |
+//| indexOf   | número      | posición simple |
